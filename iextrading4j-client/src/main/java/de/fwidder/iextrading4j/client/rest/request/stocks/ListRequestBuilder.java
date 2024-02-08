@@ -1,0 +1,33 @@
+package de.fwidder.iextrading4j.client.rest.request.stocks;
+
+import de.fwidder.iextrading4j.api.stocks.Quote;
+import de.fwidder.iextrading4j.client.rest.manager.RestRequest;
+import de.fwidder.iextrading4j.client.rest.manager.RestRequestBuilder;
+import de.fwidder.iextrading4j.client.rest.request.IEXCloudV1RestRequest;
+
+import jakarta.ws.rs.core.GenericType;
+import java.util.List;
+
+public class ListRequestBuilder implements IEXCloudV1RestRequest<List<Quote>> {
+
+    private ListType listType;
+
+    public ListType getListType() {
+        return listType;
+    }
+
+    public ListRequestBuilder withListType(final ListType listType) {
+        this.listType = listType;
+        return this;
+    }
+
+    @Override
+    public RestRequest<List<Quote>> build() {
+        return RestRequestBuilder.<List<Quote>>builder()
+                .withPath("/stock/market/list/{type}")
+                .addPathParam("type", getListType().name().toLowerCase()).get()
+                .withResponse(new GenericType<List<Quote>>() {})
+                .build();
+    }
+
+}

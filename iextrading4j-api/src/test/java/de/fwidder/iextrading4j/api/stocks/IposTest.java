@@ -1,0 +1,43 @@
+package de.fwidder.iextrading4j.api.stocks;
+
+import com.flextrade.jfixture.JFixture;
+import com.google.common.collect.Lists;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
+import org.junit.jupiter.api.Test;
+import de.fwidder.iextrading4j.api.util.ToStringVerifier;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class IposTest {
+
+    private final JFixture fixture = new JFixture();
+
+    @Test
+    void constructor() {
+        final List<Ipo> rawData = Lists.newArrayList(fixture.collections().createCollection(Ipo.class));
+        final List<IpoSummary> viewData = Lists.newArrayList(fixture.collections().createCollection(IpoSummary.class));
+
+        final Ipos ipos = new Ipos(rawData, viewData);
+
+        assertThat(ipos.getRawData()).isEqualTo(rawData);
+        assertThat(ipos.getViewData()).isEqualTo(viewData);
+    }
+
+    @Test
+    void equalsContract() {
+        EqualsVerifier.forClass(Ipos.class)
+                .suppress(Warning.BIGDECIMAL_EQUALITY)
+                .usingGetClass()
+                .verify();
+    }
+
+    @Test
+    void toStringVerification() {
+        ToStringVerifier.forObject(fixture.create(Ipos.class))
+                .verify();
+    }
+
+}

@@ -1,0 +1,32 @@
+package de.fwidder.iextrading4j.client.rest.request.stats;
+
+import org.junit.jupiter.api.Test;
+import de.fwidder.iextrading4j.api.stats.HistoricalStats;
+import de.fwidder.iextrading4j.client.rest.manager.MethodType;
+import de.fwidder.iextrading4j.client.rest.manager.RestRequest;
+
+import jakarta.ws.rs.core.GenericType;
+import java.time.YearMonth;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
+
+class HistoricalStatsRequestBuilderTest {
+
+    @Test
+    void shouldSuccessfullyCreateRequestWithYearMonthDate() {
+        final YearMonth yearMonth = YearMonth.of(2017, 5);
+
+        final RestRequest<List<HistoricalStats>> request = new HistoricalStatsRequestBuilder()
+                .withDate(yearMonth)
+                .build();
+
+        assertThat(request.getMethodType()).isEqualTo(MethodType.GET);
+        assertThat(request.getPath()).isEqualTo("/stats/historical");
+        assertThat(request.getResponseType()).isEqualTo(new GenericType<List<HistoricalStats>>() {});
+        assertThat(request.getPathParams()).isEmpty();
+        assertThat(request.getQueryParams()).contains(entry("date", "201705"));
+    }
+
+}

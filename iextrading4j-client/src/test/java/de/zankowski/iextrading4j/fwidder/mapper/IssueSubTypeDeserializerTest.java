@@ -1,0 +1,65 @@
+package de.fwidder.iextrading4j.client.mapper;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import de.fwidder.iextrading4j.api.refdata.IssueSubType;
+
+import java.io.IOException;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+class IssueSubTypeDeserializerTest {
+
+    private IssueSubTypeDeserializer deserializer;
+
+    @BeforeEach
+    public void setUp() {
+        deserializer = new IssueSubTypeDeserializer();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        deserializer = null;
+    }
+
+    @Test
+    void shouldReturnUnknownTypeIfValueIsNull() throws IOException {
+        final JsonParser parserMock = mock(JsonParser.class);
+        final DeserializationContext contextMock = mock(DeserializationContext.class);
+
+        when(parserMock.getValueAsString()).thenReturn(null);
+
+        final IssueSubType result = deserializer.deserialize(parserMock, contextMock);
+
+        assertThat(result).isEqualTo(IssueSubType.UNKNOWN);
+    }
+
+    @Test
+    void shouldCreateNotAvailableBasedOnValue() throws IOException {
+        final JsonParser parserMock = mock(JsonParser.class);
+        final DeserializationContext contextMock = mock(DeserializationContext.class);
+
+        when(parserMock.getValueAsString()).thenReturn("");
+
+        final IssueSubType result = deserializer.deserialize(parserMock, contextMock);
+
+        assertThat(result).isEqualTo(IssueSubType.NOT_AVAILABLE);
+    }
+
+    @Test
+    void shouldCreateEnumBasedOnValue() throws IOException {
+        final JsonParser parserMock = mock(JsonParser.class);
+        final DeserializationContext contextMock = mock(DeserializationContext.class);
+
+        when(parserMock.getValueAsString()).thenReturn("CM");
+
+        final IssueSubType result = deserializer.deserialize(parserMock, contextMock);
+
+        assertThat(result).isEqualTo(IssueSubType.COMMODITY_INDEX_TRUST_SHARES);
+    }
+}

@@ -1,0 +1,25 @@
+package de.fwidder.iextrading4j.client.rest.request.stats;
+
+import org.junit.jupiter.api.Test;
+import de.fwidder.iextrading4j.api.stats.RecordsStats;
+import de.fwidder.iextrading4j.client.rest.manager.MethodType;
+import de.fwidder.iextrading4j.client.rest.manager.RestRequest;
+
+import jakarta.ws.rs.core.GenericType;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class RecordStatsRequestBuilderTest {
+
+    @Test
+    void shouldSuccessfullyCreateRequestWithYearMonthDate() {
+        final RestRequest<RecordsStats> request = new RecordStatsRequestBuilder().build();
+
+        assertThat(request.getMethodType()).isEqualTo(MethodType.GET);
+        assertThat(request.getPath()).isEqualTo("/stats/records");
+        assertThat(request.getResponseType()).isEqualTo(new GenericType<RecordsStats>() {});
+        assertThat(request.getPathParams()).isEmpty();
+        assertThat(request.getQueryParams()).isEmpty();
+    }
+
+}

@@ -1,0 +1,51 @@
+package de.fwidder.iextrading4j.client.rest.request.stocks;
+
+import de.fwidder.iextrading4j.api.stocks.ThresholdSecurities;
+import de.fwidder.iextrading4j.client.rest.manager.RestRequest;
+import de.fwidder.iextrading4j.client.rest.manager.RestRequestBuilder;
+import de.fwidder.iextrading4j.client.rest.request.IEXApiRestRequest;
+
+import jakarta.ws.rs.core.GenericType;
+import java.time.LocalDate;
+import java.util.List;
+
+import static de.fwidder.iextrading4j.client.rest.request.util.RequestUtil.IEX_DATE_FORMATTER;
+
+/**
+ * @deprecated Old IEX API service https://iextrading.com/developer/
+ */
+@Deprecated
+public class ThresholdSecuritiesRequestBuilder extends AbstractStocksRequestBuilder<List<ThresholdSecurities>, ThresholdSecuritiesRequestBuilder>
+        implements IEXApiRestRequest<List<ThresholdSecurities>> {
+
+    private String date;
+
+    public String getDate() {
+        return date == null ? "" : date;
+    }
+
+    public ThresholdSecuritiesRequestBuilder withDate(final LocalDate date) {
+        this.date = IEX_DATE_FORMATTER.format(date);
+        return this;
+    }
+
+    public ThresholdSecuritiesRequestBuilder withSample() {
+        this.date = "sample";
+        return this;
+    }
+
+    public ThresholdSecuritiesRequestBuilder withMarket() {
+        return withSymbol("market");
+    }
+
+    @Override
+    public RestRequest<List<ThresholdSecurities>> build() {
+        return RestRequestBuilder.<List<ThresholdSecurities>>builder()
+                .withPath("/stock/{symbol}/threshold-securities/{date}")
+                .addPathParam("symbol", getSymbol())
+                .addPathParam("date", getDate()).get()
+                .withResponse(new GenericType<List<ThresholdSecurities>>() {
+                })
+                .build();
+    }
+}

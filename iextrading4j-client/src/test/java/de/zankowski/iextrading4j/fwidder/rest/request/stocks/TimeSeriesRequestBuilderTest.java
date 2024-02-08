@@ -1,0 +1,29 @@
+package de.fwidder.iextrading4j.client.rest.request.stocks;
+
+import org.junit.jupiter.api.Test;
+import de.fwidder.iextrading4j.api.stocks.TimeSeries;
+import de.fwidder.iextrading4j.client.rest.manager.MethodType;
+import de.fwidder.iextrading4j.client.rest.manager.RestRequest;
+
+import jakarta.ws.rs.core.GenericType;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
+
+class TimeSeriesRequestBuilderTest {
+
+    @Test
+    void shouldSuccessfullyCreateRequest() {
+        final RestRequest<List<TimeSeries>> request = new TimeSeriesRequestBuilder()
+                .withSymbol("aapl")
+                .build();
+
+        assertThat(request.getMethodType()).isEqualTo(MethodType.GET);
+        assertThat(request.getPath()).isEqualTo("/stock/{symbol}/time-series");
+        assertThat(request.getResponseType()).isEqualTo(new GenericType<List<TimeSeries>>() {});
+        assertThat(request.getPathParams()).contains(entry("symbol", "aapl"));
+        assertThat(request.getQueryParams()).isEmpty();
+    }
+
+}

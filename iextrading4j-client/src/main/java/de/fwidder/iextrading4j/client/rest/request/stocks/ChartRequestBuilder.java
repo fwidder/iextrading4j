@@ -1,0 +1,82 @@
+package de.fwidder.iextrading4j.client.rest.request.stocks;
+
+import de.fwidder.iextrading4j.api.stocks.Chart;
+import de.fwidder.iextrading4j.api.stocks.ChartRange;
+import de.fwidder.iextrading4j.client.rest.manager.RestRequest;
+import de.fwidder.iextrading4j.client.rest.manager.RestRequestBuilder;
+import de.fwidder.iextrading4j.client.rest.request.IEXCloudV1RestRequest;
+
+import jakarta.ws.rs.core.GenericType;
+import java.time.LocalDate;
+import java.util.List;
+
+import static de.fwidder.iextrading4j.client.rest.request.util.RequestUtil.IEX_DATE_FORMATTER;
+
+public class ChartRequestBuilder extends AbstractChartRequestBuilder<List<Chart>, ChartRequestBuilder>
+        implements IEXCloudV1RestRequest<List<Chart>> {
+
+    private LocalDate date;
+    private ChartRange chartRange;
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public ChartRequestBuilder withDate(final LocalDate date) {
+        this.date = date;
+        return this;
+    }
+
+    public ChartRange getChartRange() {
+        return chartRange;
+    }
+
+    public ChartRequestBuilder withChartRange(final ChartRange chartRange) {
+        this.chartRange = chartRange;
+        return this;
+    }
+
+    @Override
+    public RestRequest<List<Chart>> build() {
+        if (chartRange != null) {
+            return requestWithRange();
+        } else if (date != null) {
+            return requestWithDate();
+        } else {
+            return request();
+        }
+    }
+
+    private RestRequest<List<Chart>> request() {
+        return RestRequestBuilder.<List<Chart>>builder()
+                .withPath("/stock/{symbol}/chart")
+                .addPathParam(SYMBOL_PARAM_NAME, getSymbol()).get()
+                .withResponse(new GenericType<List<Chart>>() {
+                })
+                .addQueryParam(getQueryParameters())
+                .build();
+    }
+
+    private RestRequest<List<Chart>> requestWithRange() {
+        return RestRequestBuilder.<List<Chart>>builder()
+                .withPath("/stock/{symbol}/chart/{range}")
+                .addPathParam(SYMBOL_PARAM_NAME, getSymbol())
+                .addPathParam("range", getChartRange().getCode()).get()
+                .withResponse(new GenericType<List<Chart>>() {
+                })
+                .addQueryParam(getQueryParameters())
+                .build();
+    }
+
+    private RestRequest<List<Chart>> requestWithDate() {
+        return RestRequestBuilder.<List<Chart>>builder()
+                .withPath("/stock/{symbol}/chart/date/{date}")
+                .addPathParam(SYMBOL_PARAM_NAME, getSymbol())
+                .addPathParam("date", IEX_DATE_FORMATTER.format(date)).get()
+                .withResponse(new GenericType<List<Chart>>() {
+                })
+                .addQueryParam(getQueryParameters())
+                .build();
+    }
+
+}

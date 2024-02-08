@@ -1,0 +1,113 @@
+package de.fwidder.iextrading4j.api.stocks.v1;
+
+import com.flextrade.jfixture.JFixture;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
+import org.junit.jupiter.api.Test;
+import de.fwidder.iextrading4j.api.util.ToStringVerifier;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class BalanceSheetTest {
+
+    private final JFixture fixture = new JFixture();
+
+    @Test
+    void constructor() {
+        final String symbol = fixture.create(String.class);
+        final String id = fixture.create(String.class);
+        final String key = fixture.create(String.class);
+        final String subkey = fixture.create(String.class);
+        final Long updated = fixture.create(Long.class);
+        final Long date = fixture.create(Long.class);
+        final LocalDate reportDate = fixture.create(LocalDate.class);
+        final LocalDate fiscalDate = fixture.create(LocalDate.class);
+        final String currency = fixture.create(String.class);
+        final BigDecimal currentCash = fixture.create(BigDecimal.class);
+        final BigDecimal shortTermInvestments = fixture.create(BigDecimal.class);
+        final BigDecimal receivables = fixture.create(BigDecimal.class);
+        final BigDecimal inventory = fixture.create(BigDecimal.class);
+        final BigDecimal otherCurrentAssets = fixture.create(BigDecimal.class);
+        final BigDecimal currentAssets = fixture.create(BigDecimal.class);
+        final BigDecimal longTermInvestments = fixture.create(BigDecimal.class);
+        final BigDecimal propertyPlantEquipment = fixture.create(BigDecimal.class);
+        final BigDecimal goodwill = fixture.create(BigDecimal.class);
+        final BigDecimal intangibleAssets = fixture.create(BigDecimal.class);
+        final BigDecimal otherAssets = fixture.create(BigDecimal.class);
+        final BigDecimal totalAssets = fixture.create(BigDecimal.class);
+        final BigDecimal accountsPayable = fixture.create(BigDecimal.class);
+        final BigDecimal currentLongTermDebt = fixture.create(BigDecimal.class);
+        final BigDecimal otherCurrentLiabilities = fixture.create(BigDecimal.class);
+        final BigDecimal totalCurrentLiabilities = fixture.create(BigDecimal.class);
+        final BigDecimal longTermDebt = fixture.create(BigDecimal.class);
+        final BigDecimal otherLiabilities = fixture.create(BigDecimal.class);
+        final BigDecimal minorityInterest = fixture.create(BigDecimal.class);
+        final BigDecimal totalLiabilities = fixture.create(BigDecimal.class);
+        final BigDecimal commonStock = fixture.create(BigDecimal.class);
+        final BigDecimal retainedEarnings = fixture.create(BigDecimal.class);
+        final BigDecimal treasuryStock = fixture.create(BigDecimal.class);
+        final BigDecimal capitalSurplus = fixture.create(BigDecimal.class);
+        final BigDecimal shareholderEquity = fixture.create(BigDecimal.class);
+        final BigDecimal netTangibleAssets = fixture.create(BigDecimal.class);
+        final String filingType = fixture.create(String.class);
+        final BigDecimal fiscalQuarter = fixture.create(BigDecimal.class);
+        final BigDecimal fiscalYear = fixture.create(BigDecimal.class);
+
+        final BalanceSheet balanceSheet = new BalanceSheet(symbol, id, key, subkey, updated, date, reportDate,
+                fiscalDate, currency, currentCash, shortTermInvestments, receivables, inventory, otherCurrentAssets,
+                currentAssets, longTermInvestments, propertyPlantEquipment, goodwill, intangibleAssets, otherAssets,
+                totalAssets, accountsPayable, currentLongTermDebt, otherCurrentLiabilities, totalCurrentLiabilities,
+                longTermDebt, otherLiabilities, minorityInterest, totalLiabilities, commonStock, retainedEarnings,
+                treasuryStock, capitalSurplus, shareholderEquity, netTangibleAssets, filingType, fiscalQuarter,
+                fiscalYear);
+
+        assertThat(balanceSheet.getReportDate()).isEqualTo(reportDate);
+        assertThat(balanceSheet.getFiscalDate()).isEqualTo(fiscalDate);
+        assertThat(balanceSheet.getCurrency()).isEqualTo(currency);
+        assertThat(balanceSheet.getCurrentCash()).isEqualTo(currentCash);
+        assertThat(balanceSheet.getShortTermInvestments()).isEqualTo(shortTermInvestments);
+        assertThat(balanceSheet.getReceivables()).isEqualTo(receivables);
+        assertThat(balanceSheet.getInventory()).isEqualTo(inventory);
+        assertThat(balanceSheet.getOtherCurrentAssets()).isEqualTo(otherCurrentAssets);
+        assertThat(balanceSheet.getCurrentAssets()).isEqualTo(currentAssets);
+        assertThat(balanceSheet.getLongTermInvestments()).isEqualTo(longTermInvestments);
+        assertThat(balanceSheet.getPropertyPlantEquipment()).isEqualTo(propertyPlantEquipment);
+        assertThat(balanceSheet.getGoodwill()).isEqualTo(goodwill);
+        assertThat(balanceSheet.getIntangibleAssets()).isEqualTo(intangibleAssets);
+        assertThat(balanceSheet.getOtherAssets()).isEqualTo(otherAssets);
+        assertThat(balanceSheet.getTotalAssets()).isEqualTo(totalAssets);
+        assertThat(balanceSheet.getAccountsPayable()).isEqualTo(accountsPayable);
+        assertThat(balanceSheet.getCurrentLongTermDebt()).isEqualTo(currentLongTermDebt);
+        assertThat(balanceSheet.getOtherCurrentLiabilities()).isEqualTo(otherCurrentLiabilities);
+        assertThat(balanceSheet.getTotalCurrentLiabilities()).isEqualTo(totalCurrentLiabilities);
+        assertThat(balanceSheet.getLongTermDebt()).isEqualTo(longTermDebt);
+        assertThat(balanceSheet.getOtherLiabilities()).isEqualTo(otherLiabilities);
+        assertThat(balanceSheet.getMinorityInterest()).isEqualTo(minorityInterest);
+        assertThat(balanceSheet.getTotalLiabilities()).isEqualTo(totalLiabilities);
+        assertThat(balanceSheet.getCommonStock()).isEqualTo(commonStock);
+        assertThat(balanceSheet.getRetainedEarnings()).isEqualTo(retainedEarnings);
+        assertThat(balanceSheet.getTreasuryStock()).isEqualTo(treasuryStock);
+        assertThat(balanceSheet.getCapitalSurplus()).isEqualTo(capitalSurplus);
+        assertThat(balanceSheet.getShareholderEquity()).isEqualTo(shareholderEquity);
+        assertThat(balanceSheet.getNetTangibleAssets()).isEqualTo(netTangibleAssets);
+        assertThat(balanceSheet.getDate()).isEqualTo(date);
+    }
+
+    @Test
+    void equalsContract() {
+        EqualsVerifier.forClass(BalanceSheet.class)
+                .suppress(Warning.BIGDECIMAL_EQUALITY)
+                .usingGetClass()
+                .verify();
+    }
+
+    @Test
+    void toStringVerification() {
+        ToStringVerifier.forObject(fixture.create(BalanceSheet.class))
+                .verify();
+    }
+
+}

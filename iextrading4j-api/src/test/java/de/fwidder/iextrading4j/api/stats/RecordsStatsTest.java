@@ -1,0 +1,45 @@
+package de.fwidder.iextrading4j.api.stats;
+
+import com.flextrade.jfixture.JFixture;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
+import org.junit.jupiter.api.Test;
+import de.fwidder.iextrading4j.api.util.ToStringVerifier;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class RecordsStatsTest {
+
+    private final JFixture fixture = new JFixture();
+
+    @Test
+    void constructor() {
+        final Record volume = fixture.create(Record.class);
+        final Record symbolsTraded = fixture.create(Record.class);
+        final Record routedVolume = fixture.create(Record.class);
+        final Record notional = fixture.create(Record.class);
+
+        final RecordsStats recordsStats = new RecordsStats(volume, symbolsTraded,
+                routedVolume, notional);
+
+        assertThat(recordsStats.getVolume()).isEqualTo(volume);
+        assertThat(recordsStats.getSymbolsTraded()).isEqualTo(symbolsTraded);
+        assertThat(recordsStats.getRoutedVolume()).isEqualTo(routedVolume);
+        assertThat(recordsStats.getNotional()).isEqualTo(notional);
+    }
+
+    @Test
+    void equalsContract() {
+        EqualsVerifier.forClass(RecordsStats.class)
+                .suppress(Warning.BIGDECIMAL_EQUALITY)
+                .usingGetClass()
+                .verify();
+    }
+
+    @Test
+    void toStringVerification() {
+        ToStringVerifier.forObject(fixture.create(RecordsStats.class))
+                .verify();
+    }
+
+}

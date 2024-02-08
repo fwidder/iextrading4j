@@ -1,0 +1,55 @@
+package de.fwidder.iextrading4j.client.rest.request.stocks.v1;
+
+import org.junit.jupiter.api.Test;
+import de.fwidder.iextrading4j.api.stocks.v1.Split;
+import de.fwidder.iextrading4j.client.rest.manager.MethodType;
+import de.fwidder.iextrading4j.client.rest.manager.RestRequest;
+import de.fwidder.iextrading4j.client.rest.request.stocks.SplitsRange;
+
+import jakarta.ws.rs.core.GenericType;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
+
+class SplitsRequestBuilderTest {
+
+    @Test
+    void shouldSuccessfullyCreateRequest() {
+        final String symbol = "IBM";
+
+        final RestRequest<List<Split>> request = new SplitsRequestBuilder()
+                .withSymbol(symbol)
+                .build();
+
+        assertThat(request.getMethodType()).isEqualTo(MethodType.GET);
+        assertThat(request.getPath()).isEqualTo("/stock/{symbol}/splits/{range}");
+        assertThat(request.getResponseType()).isEqualTo(new GenericType<List<Split>>() {
+        });
+        assertThat(request.getPathParams()).containsExactly(
+                entry("symbol", symbol),
+                entry("range", SplitsRange.ONE_MONTH.getCode()));
+        assertThat(request.getQueryParams()).isEmpty();
+    }
+
+    @Test
+    void shouldSuccessfullyCreateRequestWithCustomRange() {
+        final String symbol = "IBM";
+        final SplitsRange splitsRange = SplitsRange.ONE_YEAR;
+
+        final RestRequest<List<Split>> request = new SplitsRequestBuilder()
+                .withSymbol(symbol)
+                .withSplitsRange(splitsRange)
+                .build();
+
+        assertThat(request.getMethodType()).isEqualTo(MethodType.GET);
+        assertThat(request.getPath()).isEqualTo("/stock/{symbol}/splits/{range}");
+        assertThat(request.getResponseType()).isEqualTo(new GenericType<List<Split>>() {
+        });
+        assertThat(request.getPathParams()).containsExactly(
+                entry("symbol", symbol),
+                entry("range", splitsRange.getCode()));
+        assertThat(request.getQueryParams()).isEmpty();
+    }
+
+}

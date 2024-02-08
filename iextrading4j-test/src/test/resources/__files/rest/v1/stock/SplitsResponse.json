@@ -1,0 +1,17 @@
+[
+  {
+    "declaredDate": "2017-08-01",
+    "description": "4-for-1 split",
+    "exDate": "2020-08-28",
+    "fromFactor": 1,
+    "ratio": 0.26,
+    "refid": 6928141,
+    "symbol": "AAPL",
+    "toFactor": 4,
+    "id": "LPSIST",
+    "key": "APAL",
+    "subkey": "6777449",
+    "date": 1598832000000,
+    "updated": 1651268601417
+  }
+]

@@ -1,0 +1,32 @@
+package de.fwidder.iextrading4j.client.rest.request.account;
+
+import org.junit.jupiter.api.Test;
+import de.fwidder.iextrading4j.client.rest.manager.MethodType;
+import de.fwidder.iextrading4j.client.rest.manager.RestRequest;
+
+import jakarta.ws.rs.core.GenericType;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class MessageCutoffRequestBuilderTest {
+
+    @Test
+    void shouldSuccessfullyCreateRequest() {
+        final Long totalMessages = 10000L;
+
+        final RestRequest<String> request = new MessageCutoffRequestBuilder()
+                .withTotalMessages(totalMessages)
+                .build();
+
+        assertThat(request.getMethodType()).isEqualTo(MethodType.POST);
+        assertThat(request.getPath()).isEqualTo("/account/circuitbreaker");
+        assertThat(request.getResponseType()).isEqualTo(new GenericType<String>() {
+        });
+        assertThat(request.getPathParams()).isEmpty();
+        assertThat(request.getQueryParams()).isEmpty();
+
+        final Long messages = ((MessageCutoffRequestBuilder.MessageCutoffPostEntity) request.getRequestEntity()).getTotalMessages();
+        assertThat(messages).isEqualTo(totalMessages);
+    }
+
+}

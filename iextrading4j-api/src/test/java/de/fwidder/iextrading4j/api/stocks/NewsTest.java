@@ -1,0 +1,52 @@
+package de.fwidder.iextrading4j.api.stocks;
+
+import com.flextrade.jfixture.JFixture;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
+import org.junit.jupiter.api.Test;
+import de.fwidder.iextrading4j.api.util.ToStringVerifier;
+
+import java.time.OffsetDateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class NewsTest {
+
+    private final JFixture fixture = new JFixture();
+
+    @Test
+    void constructor() {
+        final OffsetDateTime datetime = fixture.create(OffsetDateTime.class);
+        final String headline = fixture.create(String.class);
+        final String source = fixture.create(String.class);
+        final String url = fixture.create(String.class);
+        final String summary = fixture.create(String.class);
+        final String related = fixture.create(String.class);
+        final String image = fixture.create(String.class);
+
+        final News news = new News(datetime, headline, source, url, summary, related, image);
+
+        assertThat(news.getDatetime()).isEqualTo(datetime);
+        assertThat(news.getHeadline()).isEqualTo(headline);
+        assertThat(news.getSource()).isEqualTo(source);
+        assertThat(news.getUrl()).isEqualTo(url);
+        assertThat(news.getSummary()).isEqualTo(summary);
+        assertThat(news.getRelated()).isEqualTo(related);
+        assertThat(news.getImage()).isEqualTo(image);
+    }
+
+    @Test
+    void equalsContract() {
+        EqualsVerifier.forClass(News.class)
+                .suppress(Warning.BIGDECIMAL_EQUALITY)
+                .usingGetClass()
+                .verify();
+    }
+
+    @Test
+    void toStringVerification() {
+        ToStringVerifier.forObject(fixture.create(News.class))
+                .verify();
+    }
+
+}
